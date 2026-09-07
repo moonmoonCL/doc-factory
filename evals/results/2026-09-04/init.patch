@@ -1,0 +1,115 @@
+===================================================================
+--- /dev/null
++++ small-library/README.md
+@@ -0,0 +1,12 @@
++# Name utilities
++
++`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.
++
++```js
++import { normalizeName } from './src/index.js';
++normalizeName('  Ada   Lovelace ');
++```
++
++The example returns `Ada Lovelace`.
++
++Before changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.
+
+Index: monorepo/README.md
+===================================================================
+--- monorepo/README.md
++++ monorepo/README.md
+@@ -1,3 +1,5 @@
+ # Job workspace
+ 
+ Operator note: preserve batch identifiers when investigating failures.
++
++The workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).
+
+===================================================================
+--- /dev/null
++++ monorepo/docs/job-flow.md
+@@ -0,0 +1,13 @@
++# Job parsing and execution
++
++Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).
++
++## Ownership and flow
++
++[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.
++
++[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.
++
++## Verification
++
++[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.
+
+===================================================================
+--- /dev/null
++++ application/README.md
+@@ -0,0 +1,5 @@
++# Greeting service
++
++A Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).
++
++Before changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.
+
+===================================================================
+--- /dev/null
++++ application/docs/service.md
+@@ -0,0 +1,25 @@
++# Service behavior and verification
++
++Use this page when changing request handling, startup configuration or the packaged container entrypoint.
++
++## Request flow
++
++[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.
++
++| Path | Response |
++| --- | --- |
++| `/health` | Status 200, `{ "ok": true }` |
++| `/greet?name=Ada` | Status 200, `{ "message": "Hello, Ada" }` with the default prefix |
++| Any other pathname | Status 404, `{ "error": "Not found" }` |
++
++For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.
++
++## Configuration
++
++[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.
++
++## Tests and packaging
++
++[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.
++
++The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.
+
+Index: partial-docs/README.md
+===================================================================
+--- partial-docs/README.md
++++ partial-docs/README.md
+@@ -4,4 +4,6 @@
+ 
+ [Configuration](docs/configuration.md)
+ 
+ Maintainer note: keep deterministic clocks in regression tests.
++
++Before changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).
+
+Index: partial-docs/docs/configuration.md
+===================================================================
+--- partial-docs/docs/configuration.md
++++ partial-docs/docs/configuration.md
+@@ -1,5 +1,11 @@
+ # Configuration
+ 
+-The default cache TTL is 1000 milliseconds.
++The default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).
+ 
+ Pass a clock function as the second argument for deterministic tests.
++
++## Expiration and clearing
++
++Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.
++
++`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.

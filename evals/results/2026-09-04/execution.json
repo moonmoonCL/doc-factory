@@ -1,0 +1,2025 @@
+{
+  "version": 1,
+  "date": "2026-09-04",
+  "hostExecution": {
+    "mode": "same-session host Agent",
+    "independent": false,
+    "blind": false,
+    "fixtureAuthorship": "same host; fixture creation and source mutations belong to the evaluation harness",
+    "targetRoot": "/Users/moonmoonzi/Workspace/doc-factory/.eval-work/run-Yx94CN",
+    "runtime": {
+      "node": "25.2.1",
+      "os": "macOS"
+    }
+  },
+  "cases": [
+    {
+      "name": "small-library",
+      "initialEvidence": {
+        "files": [
+          {
+            "path": "package.json",
+            "hash": "f5fc0ffd8a1ae8301d999e9eaaffff0b3b83d4efe367aa4c9ea161e69444bc7a",
+            "content": "{\n  \"name\": \"name-utils\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"test\": \"node --test\"\n  }\n}\n"
+          },
+          {
+            "path": "src/index.js",
+            "hash": "197b7a9f72ef1910011c8832f6ab5db1cd63b10c1e2be0e1e3b07bd73811c2b2",
+            "content": "export function normalizeName(value) {\n  if (typeof value !== \"string\") throw new TypeError(\"Name must be a string\");\n  return value.trim().replace(/\\s+/g, \" \");\n}\n"
+          },
+          {
+            "path": "test/name.test.js",
+            "hash": "bfe02528f59c7acbf6d5baa43b8bcb26c24d7f0fc2e280a195c9bf30492032b9",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { normalizeName } from \"../src/index.js\";\ntest(\"trims and collapses whitespace\", () => assert.equal(normalizeName(\"  Ada   Lovelace \"), \"Ada Lovelace\"));\ntest(\"rejects nonstrings\", () => assert.throws(() => normalizeName(null), TypeError));\n"
+          }
+        ]
+      },
+      "init": {
+        "proposal": {
+          "version": 1,
+          "workflow": "init",
+          "entrypoints": [
+            "README.md"
+          ],
+          "changes": [
+            {
+              "path": "README.md",
+              "content": "# Name utilities\n\n`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.\n\n```js\nimport { normalizeName } from './src/index.js';\nnormalizeName('  Ada   Lovelace ');\n```\n\nThe example returns `Ada Lovelace`.\n\nBefore changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.\n",
+              "expectedHash": null,
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "src/index.js",
+                  "hash": "197b7a9f72ef1910011c8832f6ab5db1cd63b10c1e2be0e1e3b07bd73811c2b2"
+                },
+                {
+                  "path": "test/name.test.js",
+                  "hash": "bfe02528f59c7acbf6d5baa43b8bcb26c24d7f0fc2e280a195c9bf30492032b9"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "f5fc0ffd8a1ae8301d999e9eaaffff0b3b83d4efe367aa4c9ea161e69444bc7a"
+                }
+              ]
+            }
+          ],
+          "gaps": []
+        },
+        "checks": [
+          {
+            "action": "check",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "src/index.js",
+                      "hash": "197b7a9f72ef1910011c8832f6ab5db1cd63b10c1e2be0e1e3b07bd73811c2b2"
+                    },
+                    {
+                      "path": "test/name.test.js",
+                      "hash": "bfe02528f59c7acbf6d5baa43b8bcb26c24d7f0fc2e280a195c9bf30492032b9"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "f5fc0ffd8a1ae8301d999e9eaaffff0b3b83d4efe367aa4c9ea161e69444bc7a"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ README.md\n@@ -0,0 +1,12 @@\n+# Name utilities\n+\n+`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.\n+\n+```js\n+import { normalizeName } from './src/index.js';\n+normalizeName('  Ada   Lovelace ');\n+```\n+\n+The example returns `Ada Lovelace`.\n+\n+Before changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": []
+            }
+          },
+          {
+            "action": "apply --dry-run",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "src/index.js",
+                      "hash": "197b7a9f72ef1910011c8832f6ab5db1cd63b10c1e2be0e1e3b07bd73811c2b2"
+                    },
+                    {
+                      "path": "test/name.test.js",
+                      "hash": "bfe02528f59c7acbf6d5baa43b8bcb26c24d7f0fc2e280a195c9bf30492032b9"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "f5fc0ffd8a1ae8301d999e9eaaffff0b3b83d4efe367aa4c9ea161e69444bc7a"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ README.md\n@@ -0,0 +1,12 @@\n+# Name utilities\n+\n+`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.\n+\n+```js\n+import { normalizeName } from './src/index.js';\n+normalizeName('  Ada   Lovelace ');\n+```\n+\n+The example returns `Ada Lovelace`.\n+\n+Before changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": [],
+              "status": "dry_run",
+              "written": []
+            }
+          }
+        ],
+        "dryRunUnchanged": true,
+        "applied": {
+          "ok": true,
+          "issues": [],
+          "patches": [
+            {
+              "path": "README.md",
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "src/index.js",
+                  "hash": "197b7a9f72ef1910011c8832f6ab5db1cd63b10c1e2be0e1e3b07bd73811c2b2"
+                },
+                {
+                  "path": "test/name.test.js",
+                  "hash": "bfe02528f59c7acbf6d5baa43b8bcb26c24d7f0fc2e280a195c9bf30492032b9"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "f5fc0ffd8a1ae8301d999e9eaaffff0b3b83d4efe367aa4c9ea161e69444bc7a"
+                }
+              ],
+              "patch": "===================================================================\n--- /dev/null\n+++ README.md\n@@ -0,0 +1,12 @@\n+# Name utilities\n+\n+`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.\n+\n+```js\n+import { normalizeName } from './src/index.js';\n+normalizeName('  Ada   Lovelace ');\n+```\n+\n+The example returns `Ada Lovelace`.\n+\n+Before changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.\n"
+            }
+          ],
+          "unchanged": [],
+          "gaps": [],
+          "status": "success",
+          "written": [
+            "README.md"
+          ],
+          "postWriteIssues": []
+        }
+      },
+      "initialTests": {
+        "chunk_id": "646684",
+        "wall_time_seconds": 0.245451583,
+        "exit_code": 0,
+        "original_token_count": 50,
+        "output": "✔ trims and collapses whitespace (1.953625ms)\n✔ rejects nonstrings (0.257458ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 147.595417\n"
+      },
+      "initRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "selectedDiff": {
+        "mode": "worktree",
+        "from": "f5e42dacca074289449f76702e01d2ef45329376",
+        "to": "WORKTREE",
+        "head": "f5e42dacca074289449f76702e01d2ef45329376",
+        "committed": [],
+        "staged": [],
+        "unstaged": [
+          {
+            "status": "M",
+            "path": "src/index.js",
+            "patch": "diff --git a/src/index.js b/src/index.js\nindex fba6e77..7784581 100644\n--- a/src/index.js\n+++ b/src/index.js\n@@ -1,4 +1,5 @@\n export function normalizeName(value) {\n   if (typeof value !== \"string\") throw new TypeError(\"Name must be a string\");\n-  return value.trim().replace(/\\s+/g, \" \");\n+  const trimmed = value.trim();\n+  return trimmed.replace(/\\s+/g, \" \");\n }\n"
+          }
+        ],
+        "untracked": [
+          {
+            "status": "?",
+            "path": "README.md",
+            "patch": "# Name utilities\n\n`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.\n\n```js\nimport { normalizeName } from './src/index.js';\nnormalizeName('  Ada   Lovelace ');\n```\n\nThe example returns `Ada Lovelace`.\n\nBefore changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.\n"
+          }
+        ],
+        "writeAllowed": true,
+        "fingerprint": "e690cbaa2e0d50b6bedcf3b08a5d83ad2db04171b0241504d43c02f2765ab21e",
+        "pagination": {
+          "total": 2,
+          "offset": 0,
+          "limit": 200,
+          "nextOffset": null
+        }
+      },
+      "updatedEvidence": {
+        "files": [
+          {
+            "path": "package.json",
+            "hash": "f5fc0ffd8a1ae8301d999e9eaaffff0b3b83d4efe367aa4c9ea161e69444bc7a",
+            "content": "{\n  \"name\": \"name-utils\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"test\": \"node --test\"\n  }\n}\n"
+          },
+          {
+            "path": "src/index.js",
+            "hash": "7157a855b53184f525fa14db79e7fa0a91c14c33d5940c44f1cde8b57ff4430c",
+            "content": "export function normalizeName(value) {\n  if (typeof value !== \"string\") throw new TypeError(\"Name must be a string\");\n  const trimmed = value.trim();\n  return trimmed.replace(/\\s+/g, \" \");\n}\n"
+          },
+          {
+            "path": "test/name.test.js",
+            "hash": "bfe02528f59c7acbf6d5baa43b8bcb26c24d7f0fc2e280a195c9bf30492032b9",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { normalizeName } from \"../src/index.js\";\ntest(\"trims and collapses whitespace\", () => assert.equal(normalizeName(\"  Ada   Lovelace \"), \"Ada Lovelace\"));\ntest(\"rejects nonstrings\", () => assert.throws(() => normalizeName(null), TypeError));\n"
+          }
+        ]
+      },
+      "updatedTests": {
+        "chunk_id": "b568a0",
+        "wall_time_seconds": 0.194450875,
+        "exit_code": 0,
+        "original_token_count": 49,
+        "output": "✔ trims and collapses whitespace (0.720333ms)\n✔ rejects nonstrings (0.297167ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 97.9095\n"
+      },
+      "updateProposal": {
+        "version": 1,
+        "workflow": "update",
+        "scope": {},
+        "scopeFingerprint": "e690cbaa2e0d50b6bedcf3b08a5d83ad2db04171b0241504d43c02f2765ab21e",
+        "entrypoints": [
+          "README.md"
+        ],
+        "changes": [],
+        "gaps": []
+      },
+      "updateDryRun": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "dry_run",
+        "written": []
+      },
+      "updateResult": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "updateRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "finalDocuments": {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "93acb4a786e2133dec0825dbced1caadaeeddc8948b598382fd0d96c4b0983f5",
+            "content": "# Name utilities\n\n`normalizeName(value)` accepts a string, trims its ends and collapses consecutive whitespace to one space. Empty or whitespace-only strings normalize to an empty string. Nonstrings throw `TypeError`.\n\n```js\nimport { normalizeName } from './src/index.js';\nnormalizeName('  Ada   Lovelace ');\n```\n\nThe example returns `Ada Lovelace`.\n\nBefore changing normalization, read [the implementation](src/index.js) and [behavior tests](test/name.test.js). The tests exercise whitespace normalization and nonstring rejection. Run `npm test` from the repository root; the [package manifest](package.json) delegates to Node's test runner.\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "monorepo",
+      "initialEvidence": {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "0aa60037322fc9cf04dcd663525c0f6d1ba9a7c099717220cd2e30601e5064a0",
+            "content": "# Job workspace\n\nOperator note: preserve batch identifiers when investigating failures.\n"
+          },
+          {
+            "path": "package.json",
+            "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3",
+            "content": "{\n  \"name\": \"job-workspace\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"workspaces\": [\n    \"packages/*\"\n  ]\n}\n"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001",
+            "content": "packages:\n  - packages/*\n"
+          },
+          {
+            "path": "packages/core/package.json",
+            "hash": "bb7df9155163f1a01e31039661fc4355d6a1ee3be2393e7e87417a919198a401",
+            "content": "{\"name\":\"@jobs/core\",\"type\":\"module\",\"exports\":\"./src/index.js\"}\n"
+          },
+          {
+            "path": "packages/core/src/index.js",
+            "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828",
+            "content": "export function parseJob(input) {\n  const job = JSON.parse(input);\n  if (typeof job.id !== \"string\" || !job.id.trim()) throw new Error(\"Job id required\");\n  return { id: job.id, payload: job.payload };\n}\n"
+          },
+          {
+            "path": "packages/worker/package.json",
+            "hash": "3a392d61a85da0f1ae40bc936eedd310adf3700a14fe676c7362d0daa3e2478f",
+            "content": "{\"name\":\"@jobs/worker\",\"type\":\"module\",\"dependencies\":{\"@jobs/core\":\"workspace:*\"}}\n"
+          },
+          {
+            "path": "packages/worker/src/index.js",
+            "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b",
+            "content": "import { parseJob } from \"../../core/src/index.js\";\nexport async function runJob(input, handler) {\n  const job = parseJob(input);\n  const result = await handler(job.payload);\n  return { id: job.id, result };\n}\n"
+          },
+          {
+            "path": "test/worker.test.js",
+            "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { runJob } from \"../packages/worker/src/index.js\";\ntest(\"passes payload and retains identity\", async () => assert.deepEqual(await runJob(JSON.stringify({id:\"j1\",payload:2}), async x => x*2), {id:\"j1\",result:4}));\ntest(\"propagates handler failure\", async () => assert.rejects(runJob(JSON.stringify({id:\"j1\"}), async () => {throw new Error(\"failed\");}), /failed/));\n"
+          }
+        ]
+      },
+      "init": {
+        "proposal": {
+          "version": 1,
+          "workflow": "init",
+          "entrypoints": [
+            "README.md"
+          ],
+          "changes": [
+            {
+              "path": "README.md",
+              "content": "# Job workspace\n\nOperator note: preserve batch identifiers when investigating failures.\n\nThe workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n",
+              "expectedHash": "0aa60037322fc9cf04dcd663525c0f6d1ba9a7c099717220cd2e30601e5064a0",
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "packages/core/src/index.js",
+                  "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                },
+                {
+                  "path": "packages/worker/src/index.js",
+                  "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                },
+                {
+                  "path": "test/worker.test.js",
+                  "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                },
+                {
+                  "path": "pnpm-workspace.yaml",
+                  "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                }
+              ]
+            },
+            {
+              "path": "docs/job-flow.md",
+              "content": "# Job parsing and execution\n\nRead this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n\n## Ownership and flow\n\n[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n\n[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n\n## Verification\n\n[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n",
+              "expectedHash": null,
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "README.md",
+                  "hash": "0aa60037322fc9cf04dcd663525c0f6d1ba9a7c099717220cd2e30601e5064a0"
+                },
+                {
+                  "path": "packages/core/src/index.js",
+                  "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                },
+                {
+                  "path": "packages/worker/src/index.js",
+                  "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                },
+                {
+                  "path": "test/worker.test.js",
+                  "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                },
+                {
+                  "path": "pnpm-workspace.yaml",
+                  "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                }
+              ]
+            }
+          ],
+          "gaps": []
+        },
+        "checks": [
+          {
+            "action": "check",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "packages/core/src/index.js",
+                      "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                    },
+                    {
+                      "path": "packages/worker/src/index.js",
+                      "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                    },
+                    {
+                      "path": "test/worker.test.js",
+                      "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                    },
+                    {
+                      "path": "pnpm-workspace.yaml",
+                      "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                    }
+                  ],
+                  "patch": "Index: README.md\n===================================================================\n--- README.md\n+++ README.md\n@@ -1,3 +1,5 @@\n # Job workspace\n \n Operator note: preserve batch identifiers when investigating failures.\n+\n+The workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n"
+                },
+                {
+                  "path": "docs/job-flow.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "README.md",
+                      "hash": "0aa60037322fc9cf04dcd663525c0f6d1ba9a7c099717220cd2e30601e5064a0"
+                    },
+                    {
+                      "path": "packages/core/src/index.js",
+                      "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                    },
+                    {
+                      "path": "packages/worker/src/index.js",
+                      "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                    },
+                    {
+                      "path": "test/worker.test.js",
+                      "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                    },
+                    {
+                      "path": "pnpm-workspace.yaml",
+                      "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ docs/job-flow.md\n@@ -0,0 +1,13 @@\n+# Job parsing and execution\n+\n+Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n+\n+## Ownership and flow\n+\n+[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n+\n+[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n+\n+## Verification\n+\n+[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": []
+            }
+          },
+          {
+            "action": "apply --dry-run",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "packages/core/src/index.js",
+                      "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                    },
+                    {
+                      "path": "packages/worker/src/index.js",
+                      "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                    },
+                    {
+                      "path": "test/worker.test.js",
+                      "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                    },
+                    {
+                      "path": "pnpm-workspace.yaml",
+                      "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                    }
+                  ],
+                  "patch": "Index: README.md\n===================================================================\n--- README.md\n+++ README.md\n@@ -1,3 +1,5 @@\n # Job workspace\n \n Operator note: preserve batch identifiers when investigating failures.\n+\n+The workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n"
+                },
+                {
+                  "path": "docs/job-flow.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "README.md",
+                      "hash": "0aa60037322fc9cf04dcd663525c0f6d1ba9a7c099717220cd2e30601e5064a0"
+                    },
+                    {
+                      "path": "packages/core/src/index.js",
+                      "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                    },
+                    {
+                      "path": "packages/worker/src/index.js",
+                      "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                    },
+                    {
+                      "path": "test/worker.test.js",
+                      "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                    },
+                    {
+                      "path": "pnpm-workspace.yaml",
+                      "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ docs/job-flow.md\n@@ -0,0 +1,13 @@\n+# Job parsing and execution\n+\n+Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n+\n+## Ownership and flow\n+\n+[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n+\n+[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n+\n+## Verification\n+\n+[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": [],
+              "status": "dry_run",
+              "written": []
+            }
+          }
+        ],
+        "dryRunUnchanged": true,
+        "applied": {
+          "ok": true,
+          "issues": [],
+          "patches": [
+            {
+              "path": "README.md",
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "packages/core/src/index.js",
+                  "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                },
+                {
+                  "path": "packages/worker/src/index.js",
+                  "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                },
+                {
+                  "path": "test/worker.test.js",
+                  "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                },
+                {
+                  "path": "pnpm-workspace.yaml",
+                  "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                }
+              ],
+              "patch": "Index: README.md\n===================================================================\n--- README.md\n+++ README.md\n@@ -1,3 +1,5 @@\n # Job workspace\n \n Operator note: preserve batch identifiers when investigating failures.\n+\n+The workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n"
+            },
+            {
+              "path": "docs/job-flow.md",
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "README.md",
+                  "hash": "0aa60037322fc9cf04dcd663525c0f6d1ba9a7c099717220cd2e30601e5064a0"
+                },
+                {
+                  "path": "packages/core/src/index.js",
+                  "hash": "d1060ff5847347b2da19bc667432bf9ef824b13567cb2d1f921c32a2e9ec3828"
+                },
+                {
+                  "path": "packages/worker/src/index.js",
+                  "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+                },
+                {
+                  "path": "test/worker.test.js",
+                  "hash": "19c02940a11024635bbca8f5f00ca37c60237028a9faba383dc3140e0f9645e4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3"
+                },
+                {
+                  "path": "pnpm-workspace.yaml",
+                  "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001"
+                }
+              ],
+              "patch": "===================================================================\n--- /dev/null\n+++ docs/job-flow.md\n@@ -0,0 +1,13 @@\n+# Job parsing and execution\n+\n+Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n+\n+## Ownership and flow\n+\n+[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n+\n+[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n+\n+## Verification\n+\n+[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+            }
+          ],
+          "unchanged": [],
+          "gaps": [],
+          "status": "success",
+          "written": [
+            "README.md",
+            "docs/job-flow.md"
+          ],
+          "postWriteIssues": []
+        }
+      },
+      "initialTests": {
+        "chunk_id": "bbb28e",
+        "wall_time_seconds": 0.246959791,
+        "exit_code": 0,
+        "original_token_count": 53,
+        "output": "✔ passes payload and retains identity (3.124917ms)\n✔ propagates handler failure (0.784416ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 157.123958\n"
+      },
+      "initRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "selectedDiff": {
+        "mode": "range",
+        "from": "3660475e3909fa0d025ec5b4b2c3a06830b28c2f",
+        "to": "7a70b245ff3cdb0a21c78ed7f80c222407ee4904",
+        "head": "7a70b245ff3cdb0a21c78ed7f80c222407ee4904",
+        "committed": [
+          {
+            "status": "M",
+            "path": "packages/core/src/index.js",
+            "patch": "diff --git a/packages/core/src/index.js b/packages/core/src/index.js\nindex cc0cdfe..ca8dd2b 100644\n--- a/packages/core/src/index.js\n+++ b/packages/core/src/index.js\n@@ -1,5 +1,5 @@\n export function parseJob(input) {\n   const job = JSON.parse(input);\n   if (typeof job.id !== \"string\" || !job.id.trim()) throw new Error(\"Job id required\");\n-  return { id: job.id, payload: job.payload };\n+  return { id: job.id.trim(), payload: job.payload };\n }\n"
+          },
+          {
+            "status": "M",
+            "path": "test/worker.test.js",
+            "patch": "diff --git a/test/worker.test.js b/test/worker.test.js\nindex a1b043a..021bfc5 100644\n--- a/test/worker.test.js\n+++ b/test/worker.test.js\n@@ -1,5 +1,5 @@\n import assert from \"node:assert/strict\";\n import { test } from \"node:test\";\n import { runJob } from \"../packages/worker/src/index.js\";\n-test(\"passes payload and retains identity\", async () => assert.deepEqual(await runJob(JSON.stringify({id:\"j1\",payload:2}), async x => x*2), {id:\"j1\",result:4}));\n+test(\"passes payload and retains identity\", async () => assert.deepEqual(await runJob(JSON.stringify({id:\"  j1  \",payload:2}), async x => x*2), {id:\"j1\",result:4}));\n test(\"propagates handler failure\", async () => assert.rejects(runJob(JSON.stringify({id:\"j1\"}), async () => {throw new Error(\"failed\");}), /failed/));\n"
+          }
+        ],
+        "staged": [],
+        "unstaged": [],
+        "untracked": [],
+        "writeAllowed": true,
+        "fingerprint": "55dd53f9d49ac0d0f678be0390caee3399bfd4e6b21f3563cad10a805eebb5c9",
+        "pagination": {
+          "total": 2,
+          "offset": 0,
+          "limit": 200,
+          "nextOffset": null
+        }
+      },
+      "updatedEvidence": {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "8e77823f35150f554e927c96ceba4de0793cab79e45d92501037f9455e2badbc",
+            "content": "# Job workspace\n\nOperator note: preserve batch identifiers when investigating failures.\n\nThe workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n"
+          },
+          {
+            "path": "package.json",
+            "hash": "9adac36c20e60f96acdc45b6e6f47e8f980949d8754538b956136631b5e535d3",
+            "content": "{\n  \"name\": \"job-workspace\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"workspaces\": [\n    \"packages/*\"\n  ]\n}\n"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "hash": "d115dc6c83ba283a7d17146ad456056f3f70b003edb8c312a52880b48b034001",
+            "content": "packages:\n  - packages/*\n"
+          },
+          {
+            "path": "packages/core/package.json",
+            "hash": "bb7df9155163f1a01e31039661fc4355d6a1ee3be2393e7e87417a919198a401",
+            "content": "{\"name\":\"@jobs/core\",\"type\":\"module\",\"exports\":\"./src/index.js\"}\n"
+          },
+          {
+            "path": "packages/core/src/index.js",
+            "hash": "22891e0888e51645c0621464ca80e3524a8919664e3725468dd56158abdf02c2",
+            "content": "export function parseJob(input) {\n  const job = JSON.parse(input);\n  if (typeof job.id !== \"string\" || !job.id.trim()) throw new Error(\"Job id required\");\n  return { id: job.id.trim(), payload: job.payload };\n}\n"
+          },
+          {
+            "path": "packages/worker/package.json",
+            "hash": "3a392d61a85da0f1ae40bc936eedd310adf3700a14fe676c7362d0daa3e2478f",
+            "content": "{\"name\":\"@jobs/worker\",\"type\":\"module\",\"dependencies\":{\"@jobs/core\":\"workspace:*\"}}\n"
+          },
+          {
+            "path": "packages/worker/src/index.js",
+            "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b",
+            "content": "import { parseJob } from \"../../core/src/index.js\";\nexport async function runJob(input, handler) {\n  const job = parseJob(input);\n  const result = await handler(job.payload);\n  return { id: job.id, result };\n}\n"
+          },
+          {
+            "path": "test/worker.test.js",
+            "hash": "cd10e7b30db294013462dc6f5911b263fba9f78d2391a6aa5ef384a5cd9a7cad",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { runJob } from \"../packages/worker/src/index.js\";\ntest(\"passes payload and retains identity\", async () => assert.deepEqual(await runJob(JSON.stringify({id:\"  j1  \",payload:2}), async x => x*2), {id:\"j1\",result:4}));\ntest(\"propagates handler failure\", async () => assert.rejects(runJob(JSON.stringify({id:\"j1\"}), async () => {throw new Error(\"failed\");}), /failed/));\n"
+          }
+        ]
+      },
+      "updatedTests": {
+        "chunk_id": "830bc0",
+        "wall_time_seconds": 0.06933675,
+        "exit_code": 0,
+        "original_token_count": 53,
+        "output": "✔ passes payload and retains identity (2.253209ms)\n✔ propagates handler failure (0.294625ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 117.661\n"
+      },
+      "updateProposal": {
+        "version": 1,
+        "workflow": "update",
+        "scope": {
+          "range": "HEAD~1..HEAD"
+        },
+        "scopeFingerprint": "55dd53f9d49ac0d0f678be0390caee3399bfd4e6b21f3563cad10a805eebb5c9",
+        "entrypoints": [
+          "README.md"
+        ],
+        "changes": [
+          {
+            "path": "docs/job-flow.md",
+            "expectedHash": "d0c0461cc66e7f82a9aa8cb3e6aefafc8550f58e912e6412f05010a890d4f214",
+            "content": "# Job parsing and execution\n\nRead this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n\n## Ownership and flow\n\n[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the trimmed id with `payload`. Surrounding id whitespace is removed before the worker propagates the id. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n\n[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n\n## Verification\n\n[Worker tests](../test/worker.test.js) exercise payload delivery, normalized identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n",
+            "reason": "The selected committed change trims returned job identity; update its owning flow page and test description.",
+            "evidence": [
+              {
+                "path": "packages/core/src/index.js",
+                "hash": "22891e0888e51645c0621464ca80e3524a8919664e3725468dd56158abdf02c2"
+              },
+              {
+                "path": "packages/worker/src/index.js",
+                "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+              },
+              {
+                "path": "test/worker.test.js",
+                "hash": "cd10e7b30db294013462dc6f5911b263fba9f78d2391a6aa5ef384a5cd9a7cad"
+              }
+            ]
+          }
+        ],
+        "gaps": []
+      },
+      "updateDryRun": {
+        "ok": true,
+        "issues": [],
+        "patches": [
+          {
+            "path": "docs/job-flow.md",
+            "reason": "The selected committed change trims returned job identity; update its owning flow page and test description.",
+            "evidence": [
+              {
+                "path": "packages/core/src/index.js",
+                "hash": "22891e0888e51645c0621464ca80e3524a8919664e3725468dd56158abdf02c2"
+              },
+              {
+                "path": "packages/worker/src/index.js",
+                "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+              },
+              {
+                "path": "test/worker.test.js",
+                "hash": "cd10e7b30db294013462dc6f5911b263fba9f78d2391a6aa5ef384a5cd9a7cad"
+              }
+            ],
+            "patch": "Index: docs/job-flow.md\n===================================================================\n--- docs/job-flow.md\n+++ docs/job-flow.md\n@@ -3,11 +3,11 @@\n Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n \n ## Ownership and flow\n \n-[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n+[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the trimmed id with `payload`. Surrounding id whitespace is removed before the worker propagates the id. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n \n [Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n \n ## Verification\n \n-[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n+[Worker tests](../test/worker.test.js) exercise payload delivery, normalized identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+          }
+        ],
+        "unchanged": [],
+        "gaps": [],
+        "status": "dry_run",
+        "written": []
+      },
+      "updateResult": {
+        "ok": true,
+        "issues": [],
+        "patches": [
+          {
+            "path": "docs/job-flow.md",
+            "reason": "The selected committed change trims returned job identity; update its owning flow page and test description.",
+            "evidence": [
+              {
+                "path": "packages/core/src/index.js",
+                "hash": "22891e0888e51645c0621464ca80e3524a8919664e3725468dd56158abdf02c2"
+              },
+              {
+                "path": "packages/worker/src/index.js",
+                "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b"
+              },
+              {
+                "path": "test/worker.test.js",
+                "hash": "cd10e7b30db294013462dc6f5911b263fba9f78d2391a6aa5ef384a5cd9a7cad"
+              }
+            ],
+            "patch": "Index: docs/job-flow.md\n===================================================================\n--- docs/job-flow.md\n+++ docs/job-flow.md\n@@ -3,11 +3,11 @@\n Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n \n ## Ownership and flow\n \n-[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n+[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the trimmed id with `payload`. Surrounding id whitespace is removed before the worker propagates the id. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n \n [Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n \n ## Verification\n \n-[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n+[Worker tests](../test/worker.test.js) exercise payload delivery, normalized identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+          }
+        ],
+        "unchanged": [],
+        "gaps": [],
+        "status": "success",
+        "written": [
+          "docs/job-flow.md"
+        ],
+        "postWriteIssues": []
+      },
+      "updateRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "finalDocuments": {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "8e77823f35150f554e927c96ceba4de0793cab79e45d92501037f9455e2badbc",
+            "content": "# Job workspace\n\nOperator note: preserve batch identifiers when investigating failures.\n\nThe workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n"
+          },
+          {
+            "path": "docs/job-flow.md",
+            "hash": "5cf6aec042d2e4c6bbbad003565d918b3e68bc139abb6565d8b75b6284214bd7",
+            "content": "# Job parsing and execution\n\nRead this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n\n## Ownership and flow\n\n[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the trimmed id with `payload`. Surrounding id whitespace is removed before the worker propagates the id. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n\n[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n\n## Verification\n\n[Worker tests](../test/worker.test.js) exercise payload delivery, normalized identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "application",
+      "initialEvidence": {
+        "files": [
+          {
+            "path": "package.json",
+            "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418",
+            "content": "{\"name\":\"greeting-service\",\"type\":\"module\",\"private\":true,\"scripts\":{\"start\":\"node src/server.js\",\"test\":\"node --test\"}}\n"
+          },
+          {
+            "path": "src/config.js",
+            "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448",
+            "content": "export function loadConfig(env = process.env) {\n  const port = Number(env.PORT ?? 3000);\n  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error(\"Invalid PORT\");\n  return { port, prefix: env.GREETING_PREFIX ?? \"Hello\" };\n}\n"
+          },
+          {
+            "path": "src/handler.js",
+            "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606",
+            "content": "export function handle(url, config) {\n  if (url.pathname === \"/health\") return {status:200,body:{ok:true}};\n  if (url.pathname === \"/greet\") return {status:200,body:{message:`${config.prefix}, ${url.searchParams.get(\"name\") ?? \"world\"}`}};\n  return {status:404,body:{error:\"Not found\"}};\n}\n"
+          },
+          {
+            "path": "src/server.js",
+            "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439",
+            "content": "import http from \"node:http\";\nimport { loadConfig } from \"./config.js\";\nimport { handle } from \"./handler.js\";\nconst config = loadConfig();\nhttp.createServer((req,res) => {\n  const result = handle(new URL(req.url, \"http://localhost\"), config);\n  res.writeHead(result.status, {\"content-type\":\"application/json\"});\n  res.end(JSON.stringify(result.body));\n}).listen(config.port);\n"
+          },
+          {
+            "path": "test/service.test.js",
+            "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { loadConfig } from \"../src/config.js\";\nimport { handle } from \"../src/handler.js\";\ntest(\"default config\", () => assert.deepEqual(loadConfig({}), {port:3000,prefix:\"Hello\"}));\ntest(\"invalid port\", () => assert.throws(() => loadConfig({PORT:\"no\"}), /Invalid PORT/));\ntest(\"greeting\", () => assert.deepEqual(handle(new URL(\"http://local/greet?name=Ada\"), loadConfig({})), {status:200,body:{message:\"Hello, Ada\"}}));\n"
+          },
+          {
+            "path": ".github/workflows/test.yml",
+            "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f",
+            "content": "name: tests\non: [push, pull_request]\njobs:\n  unit:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 22\n      - run: npm test\n"
+          },
+          {
+            "path": "Dockerfile",
+            "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b",
+            "content": "FROM node:22-alpine\nWORKDIR /app\nCOPY package.json ./\nCOPY src ./src\nEXPOSE 3000\nCMD [\"node\", \"src/server.js\"]\n"
+          }
+        ]
+      },
+      "init": {
+        "proposal": {
+          "version": 1,
+          "workflow": "init",
+          "entrypoints": [
+            "README.md"
+          ],
+          "changes": [
+            {
+              "path": "README.md",
+              "content": "# Greeting service\n\nA Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).\n\nBefore changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.\n",
+              "expectedHash": null,
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "src/config.js",
+                  "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                },
+                {
+                  "path": "src/handler.js",
+                  "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                },
+                {
+                  "path": "src/server.js",
+                  "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                },
+                {
+                  "path": "test/service.test.js",
+                  "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                },
+                {
+                  "path": "Dockerfile",
+                  "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                },
+                {
+                  "path": ".github/workflows/test.yml",
+                  "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                }
+              ]
+            },
+            {
+              "path": "docs/service.md",
+              "content": "# Service behavior and verification\n\nUse this page when changing request handling, startup configuration or the packaged container entrypoint.\n\n## Request flow\n\n[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n\n| Path | Response |\n| --- | --- |\n| `/health` | Status 200, `{ \"ok\": true }` |\n| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n\nFor `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n\n## Configuration\n\n[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n\n## Tests and packaging\n\n[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n\nThe [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n",
+              "expectedHash": null,
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "src/config.js",
+                  "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                },
+                {
+                  "path": "src/handler.js",
+                  "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                },
+                {
+                  "path": "src/server.js",
+                  "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                },
+                {
+                  "path": "test/service.test.js",
+                  "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                },
+                {
+                  "path": "Dockerfile",
+                  "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                },
+                {
+                  "path": ".github/workflows/test.yml",
+                  "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                }
+              ]
+            }
+          ],
+          "gaps": [
+            "Production topology and release process are not established by the repository. Socket-level behavior and Docker build were not executed."
+          ]
+        },
+        "checks": [
+          {
+            "action": "check",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "src/config.js",
+                      "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                    },
+                    {
+                      "path": "src/handler.js",
+                      "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                    },
+                    {
+                      "path": "src/server.js",
+                      "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                    },
+                    {
+                      "path": "test/service.test.js",
+                      "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                    },
+                    {
+                      "path": "Dockerfile",
+                      "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                    },
+                    {
+                      "path": ".github/workflows/test.yml",
+                      "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ README.md\n@@ -0,0 +1,5 @@\n+# Greeting service\n+\n+A Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).\n+\n+Before changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.\n"
+                },
+                {
+                  "path": "docs/service.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "src/config.js",
+                      "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                    },
+                    {
+                      "path": "src/handler.js",
+                      "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                    },
+                    {
+                      "path": "src/server.js",
+                      "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                    },
+                    {
+                      "path": "test/service.test.js",
+                      "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                    },
+                    {
+                      "path": "Dockerfile",
+                      "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                    },
+                    {
+                      "path": ".github/workflows/test.yml",
+                      "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ docs/service.md\n@@ -0,0 +1,25 @@\n+# Service behavior and verification\n+\n+Use this page when changing request handling, startup configuration or the packaged container entrypoint.\n+\n+## Request flow\n+\n+[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n+\n+| Path | Response |\n+| --- | --- |\n+| `/health` | Status 200, `{ \"ok\": true }` |\n+| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n+| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n+\n+For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n+\n+## Configuration\n+\n+[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n+\n+## Tests and packaging\n+\n+[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n+\n+The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": [
+                "Production topology and release process are not established by the repository. Socket-level behavior and Docker build were not executed."
+              ]
+            }
+          },
+          {
+            "action": "apply --dry-run",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "src/config.js",
+                      "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                    },
+                    {
+                      "path": "src/handler.js",
+                      "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                    },
+                    {
+                      "path": "src/server.js",
+                      "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                    },
+                    {
+                      "path": "test/service.test.js",
+                      "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                    },
+                    {
+                      "path": "Dockerfile",
+                      "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                    },
+                    {
+                      "path": ".github/workflows/test.yml",
+                      "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ README.md\n@@ -0,0 +1,5 @@\n+# Greeting service\n+\n+A Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).\n+\n+Before changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.\n"
+                },
+                {
+                  "path": "docs/service.md",
+                  "reason": "Document verified behavior and add task-specific source/test routes.",
+                  "evidence": [
+                    {
+                      "path": "src/config.js",
+                      "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                    },
+                    {
+                      "path": "src/handler.js",
+                      "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                    },
+                    {
+                      "path": "src/server.js",
+                      "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                    },
+                    {
+                      "path": "test/service.test.js",
+                      "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                    },
+                    {
+                      "path": "Dockerfile",
+                      "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                    },
+                    {
+                      "path": ".github/workflows/test.yml",
+                      "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                    }
+                  ],
+                  "patch": "===================================================================\n--- /dev/null\n+++ docs/service.md\n@@ -0,0 +1,25 @@\n+# Service behavior and verification\n+\n+Use this page when changing request handling, startup configuration or the packaged container entrypoint.\n+\n+## Request flow\n+\n+[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n+\n+| Path | Response |\n+| --- | --- |\n+| `/health` | Status 200, `{ \"ok\": true }` |\n+| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n+| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n+\n+For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n+\n+## Configuration\n+\n+[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n+\n+## Tests and packaging\n+\n+[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n+\n+The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": [
+                "Production topology and release process are not established by the repository. Socket-level behavior and Docker build were not executed."
+              ],
+              "status": "dry_run",
+              "written": []
+            }
+          }
+        ],
+        "dryRunUnchanged": true,
+        "applied": {
+          "ok": true,
+          "issues": [],
+          "patches": [
+            {
+              "path": "README.md",
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "src/config.js",
+                  "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                },
+                {
+                  "path": "src/handler.js",
+                  "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                },
+                {
+                  "path": "src/server.js",
+                  "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                },
+                {
+                  "path": "test/service.test.js",
+                  "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                },
+                {
+                  "path": "Dockerfile",
+                  "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                },
+                {
+                  "path": ".github/workflows/test.yml",
+                  "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                }
+              ],
+              "patch": "===================================================================\n--- /dev/null\n+++ README.md\n@@ -0,0 +1,5 @@\n+# Greeting service\n+\n+A Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).\n+\n+Before changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.\n"
+            },
+            {
+              "path": "docs/service.md",
+              "reason": "Document verified behavior and add task-specific source/test routes.",
+              "evidence": [
+                {
+                  "path": "src/config.js",
+                  "hash": "09bee54392b01ab70c69d0105ab9406ab4a80299eb0a6fd5948cd62040406448"
+                },
+                {
+                  "path": "src/handler.js",
+                  "hash": "fd20a4e518cba39956194d1c5c290aef56f1b52ca775363a49c6f96eea2e8606"
+                },
+                {
+                  "path": "src/server.js",
+                  "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439"
+                },
+                {
+                  "path": "test/service.test.js",
+                  "hash": "394486ff8f0540da82667c456dba54fa4712e972f6b71646f16c7d98dd1b67a4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418"
+                },
+                {
+                  "path": "Dockerfile",
+                  "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+                },
+                {
+                  "path": ".github/workflows/test.yml",
+                  "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f"
+                }
+              ],
+              "patch": "===================================================================\n--- /dev/null\n+++ docs/service.md\n@@ -0,0 +1,25 @@\n+# Service behavior and verification\n+\n+Use this page when changing request handling, startup configuration or the packaged container entrypoint.\n+\n+## Request flow\n+\n+[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n+\n+| Path | Response |\n+| --- | --- |\n+| `/health` | Status 200, `{ \"ok\": true }` |\n+| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n+| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n+\n+For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n+\n+## Configuration\n+\n+[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n+\n+## Tests and packaging\n+\n+[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n+\n+The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n"
+            }
+          ],
+          "unchanged": [],
+          "gaps": [
+            "Production topology and release process are not established by the repository. Socket-level behavior and Docker build were not executed."
+          ],
+          "status": "success",
+          "written": [
+            "README.md",
+            "docs/service.md"
+          ],
+          "postWriteIssues": []
+        }
+      },
+      "initialTests": {
+        "chunk_id": "cedf63",
+        "wall_time_seconds": 0.222552292,
+        "exit_code": 0,
+        "original_token_count": 51,
+        "output": "✔ default config (1.909625ms)\n✔ invalid port (0.423917ms)\n✔ greeting (0.417958ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 144.75925\n"
+      },
+      "initRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [
+          "Production release/deployment evidence unavailable."
+        ],
+        "status": "no_change",
+        "written": []
+      },
+      "selectedDiff": {
+        "mode": "worktree",
+        "from": "56cc5d30cd2eb2d761f46db1cb6a4b07b159f2c5",
+        "to": "WORKTREE",
+        "head": "56cc5d30cd2eb2d761f46db1cb6a4b07b159f2c5",
+        "committed": [],
+        "staged": [
+          {
+            "status": "M",
+            "path": "src/config.js",
+            "patch": "diff --git a/src/config.js b/src/config.js\nindex eea97ca..d65797f 100644\n--- a/src/config.js\n+++ b/src/config.js\n@@ -1,5 +1,5 @@\n export function loadConfig(env = process.env) {\n-  const port = Number(env.PORT ?? 3000);\n+  const port = Number(env.PORT ?? 3100);\n   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error(\"Invalid PORT\");\n   return { port, prefix: env.GREETING_PREFIX ?? \"Hello\" };\n }\n"
+          }
+        ],
+        "unstaged": [
+          {
+            "status": "M",
+            "path": "src/handler.js",
+            "patch": "diff --git a/src/handler.js b/src/handler.js\nindex 53c76e5..fe07dbe 100644\n--- a/src/handler.js\n+++ b/src/handler.js\n@@ -1,5 +1,5 @@\n export function handle(url, config) {\n   if (url.pathname === \"/health\") return {status:200,body:{ok:true}};\n-  if (url.pathname === \"/greet\") return {status:200,body:{message:`${config.prefix}, ${url.searchParams.get(\"name\") ?? \"world\"}`}};\n+  if (url.pathname === \"/greet\") return {status:200,body:{greeting:`${config.prefix}, ${url.searchParams.get(\"name\") ?? \"world\"}`}};\n   return {status:404,body:{error:\"Not found\"}};\n }\n"
+          },
+          {
+            "status": "M",
+            "path": "test/service.test.js",
+            "patch": "diff --git a/test/service.test.js b/test/service.test.js\nindex bce9a10..222b146 100644\n--- a/test/service.test.js\n+++ b/test/service.test.js\n@@ -2,6 +2,6 @@ import assert from \"node:assert/strict\";\n import { test } from \"node:test\";\n import { loadConfig } from \"../src/config.js\";\n import { handle } from \"../src/handler.js\";\n-test(\"default config\", () => assert.deepEqual(loadConfig({}), {port:3000,prefix:\"Hello\"}));\n+test(\"default config\", () => assert.deepEqual(loadConfig({}), {port:3100,prefix:\"Hello\"}));\n test(\"invalid port\", () => assert.throws(() => loadConfig({PORT:\"no\"}), /Invalid PORT/));\n-test(\"greeting\", () => assert.deepEqual(handle(new URL(\"http://local/greet?name=Ada\"), loadConfig({})), {status:200,body:{message:\"Hello, Ada\"}}));\n+test(\"greeting\", () => assert.deepEqual(handle(new URL(\"http://local/greet?name=Ada\"), loadConfig({})), {status:200,body:{greeting:\"Hello, Ada\"}}));\n"
+          }
+        ],
+        "untracked": [
+          {
+            "status": "?",
+            "path": "README.md",
+            "patch": "# Greeting service\n\nA Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).\n\nBefore changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.\n"
+          },
+          {
+            "status": "?",
+            "path": "docs/service.md",
+            "patch": "# Service behavior and verification\n\nUse this page when changing request handling, startup configuration or the packaged container entrypoint.\n\n## Request flow\n\n[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n\n| Path | Response |\n| --- | --- |\n| `/health` | Status 200, `{ \"ok\": true }` |\n| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n\nFor `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n\n## Configuration\n\n[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n\n## Tests and packaging\n\n[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n\nThe [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n"
+          }
+        ],
+        "writeAllowed": true,
+        "fingerprint": "8f4b741eb2e7a5f37efef443cb0b29f2c3df6195fdf0da7db60c4979ee2aa8fc",
+        "pagination": {
+          "total": 5,
+          "offset": 0,
+          "limit": 200,
+          "nextOffset": null
+        }
+      },
+      "updatedEvidence": {
+        "files": [
+          {
+            "path": "package.json",
+            "hash": "1272e4f373a700cff2d8ce2619a0316c32289e873cbd73b1792dae9bf6e72418",
+            "content": "{\"name\":\"greeting-service\",\"type\":\"module\",\"private\":true,\"scripts\":{\"start\":\"node src/server.js\",\"test\":\"node --test\"}}\n"
+          },
+          {
+            "path": "src/config.js",
+            "hash": "b941448313a0aef3b59cfd4243765bb27e900b6a539066ae6cca7fe87e265557",
+            "content": "export function loadConfig(env = process.env) {\n  const port = Number(env.PORT ?? 3100);\n  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error(\"Invalid PORT\");\n  return { port, prefix: env.GREETING_PREFIX ?? \"Hello\" };\n}\n"
+          },
+          {
+            "path": "src/handler.js",
+            "hash": "6fa7b32052aa445c83c6edbb8edbaef18c5cfeeedc16f513fd43bf20089a498b",
+            "content": "export function handle(url, config) {\n  if (url.pathname === \"/health\") return {status:200,body:{ok:true}};\n  if (url.pathname === \"/greet\") return {status:200,body:{greeting:`${config.prefix}, ${url.searchParams.get(\"name\") ?? \"world\"}`}};\n  return {status:404,body:{error:\"Not found\"}};\n}\n"
+          },
+          {
+            "path": "src/server.js",
+            "hash": "843277fc79cc75367c0c484c117888d0c768b516bf30335b5b9f8d45b2269439",
+            "content": "import http from \"node:http\";\nimport { loadConfig } from \"./config.js\";\nimport { handle } from \"./handler.js\";\nconst config = loadConfig();\nhttp.createServer((req,res) => {\n  const result = handle(new URL(req.url, \"http://localhost\"), config);\n  res.writeHead(result.status, {\"content-type\":\"application/json\"});\n  res.end(JSON.stringify(result.body));\n}).listen(config.port);\n"
+          },
+          {
+            "path": "test/service.test.js",
+            "hash": "42ca5e6ff2ded52bd9deee87c3c2ae08292c03bb06ae1e6f2991bbcc683f4b2f",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { loadConfig } from \"../src/config.js\";\nimport { handle } from \"../src/handler.js\";\ntest(\"default config\", () => assert.deepEqual(loadConfig({}), {port:3100,prefix:\"Hello\"}));\ntest(\"invalid port\", () => assert.throws(() => loadConfig({PORT:\"no\"}), /Invalid PORT/));\ntest(\"greeting\", () => assert.deepEqual(handle(new URL(\"http://local/greet?name=Ada\"), loadConfig({})), {status:200,body:{greeting:\"Hello, Ada\"}}));\n"
+          },
+          {
+            "path": ".github/workflows/test.yml",
+            "hash": "1b8efde5e41b9ebed7c5ab26998416a6d1474a1c82744f1933fc563dd9a4f79f",
+            "content": "name: tests\non: [push, pull_request]\njobs:\n  unit:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 22\n      - run: npm test\n"
+          },
+          {
+            "path": "Dockerfile",
+            "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b",
+            "content": "FROM node:22-alpine\nWORKDIR /app\nCOPY package.json ./\nCOPY src ./src\nEXPOSE 3000\nCMD [\"node\", \"src/server.js\"]\n"
+          }
+        ]
+      },
+      "updatedTests": {
+        "chunk_id": "f32e46",
+        "wall_time_seconds": 0.087804958,
+        "exit_code": 0,
+        "original_token_count": 51,
+        "output": "✔ default config (2.203208ms)\n✔ invalid port (0.480542ms)\n✔ greeting (0.268292ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 124.651667\n"
+      },
+      "updateProposal": {
+        "version": 1,
+        "workflow": "update",
+        "scope": {},
+        "scopeFingerprint": "8f4b741eb2e7a5f37efef443cb0b29f2c3df6195fdf0da7db60c4979ee2aa8fc",
+        "entrypoints": [
+          "README.md"
+        ],
+        "changes": [
+          {
+            "path": "docs/service.md",
+            "expectedHash": "8223d78153958d37bc98e6028765d6877446bf99dcbeb1c801ff9c76a713dd70",
+            "content": "# Service behavior and verification\n\nUse this page when changing request handling, startup configuration or the packaged container entrypoint.\n\n## Request flow\n\n[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n\n| Path | Response |\n| --- | --- |\n| `/health` | Status 200, `{ \"ok\": true }` |\n| `/greet?name=Ada` | Status 200, `{ \"greeting\": \"Hello, Ada\" }` with the default prefix |\n| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n\nFor `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n\n## Configuration\n\n[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3100 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n\n## Tests and packaging\n\n[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n\nThe [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`; this declared port differs from the runtime default in [Configuration](#configuration). No production host, orchestration platform or release procedure is established by these files.\n",
+            "reason": "The final working tree changes the greeting response field and default port; Docker EXPOSE remains 3000.",
+            "evidence": [
+              {
+                "path": "src/config.js",
+                "hash": "b941448313a0aef3b59cfd4243765bb27e900b6a539066ae6cca7fe87e265557"
+              },
+              {
+                "path": "src/handler.js",
+                "hash": "6fa7b32052aa445c83c6edbb8edbaef18c5cfeeedc16f513fd43bf20089a498b"
+              },
+              {
+                "path": "test/service.test.js",
+                "hash": "42ca5e6ff2ded52bd9deee87c3c2ae08292c03bb06ae1e6f2991bbcc683f4b2f"
+              },
+              {
+                "path": "Dockerfile",
+                "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+              }
+            ]
+          }
+        ],
+        "gaps": [
+          "Production deployment and release evidence is absent. Docker build and live HTTP sockets were not exercised."
+        ]
+      },
+      "updateDryRun": {
+        "ok": true,
+        "issues": [],
+        "patches": [
+          {
+            "path": "docs/service.md",
+            "reason": "The final working tree changes the greeting response field and default port; Docker EXPOSE remains 3000.",
+            "evidence": [
+              {
+                "path": "src/config.js",
+                "hash": "b941448313a0aef3b59cfd4243765bb27e900b6a539066ae6cca7fe87e265557"
+              },
+              {
+                "path": "src/handler.js",
+                "hash": "6fa7b32052aa445c83c6edbb8edbaef18c5cfeeedc16f513fd43bf20089a498b"
+              },
+              {
+                "path": "test/service.test.js",
+                "hash": "42ca5e6ff2ded52bd9deee87c3c2ae08292c03bb06ae1e6f2991bbcc683f4b2f"
+              },
+              {
+                "path": "Dockerfile",
+                "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+              }
+            ],
+            "patch": "Index: docs/service.md\n===================================================================\n--- docs/service.md\n+++ docs/service.md\n@@ -8,18 +8,18 @@\n \n | Path | Response |\n | --- | --- |\n | `/health` | Status 200, `{ \"ok\": true }` |\n-| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n+| `/greet?name=Ada` | Status 200, `{ \"greeting\": \"Hello, Ada\" }` with the default prefix |\n | Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n \n For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n \n ## Configuration\n \n-[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n+[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3100 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n \n ## Tests and packaging\n \n [Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n \n-The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n+The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`; this declared port differs from the runtime default in [Configuration](#configuration). No production host, orchestration platform or release procedure is established by these files.\n"
+          }
+        ],
+        "unchanged": [],
+        "gaps": [
+          "Production deployment and release evidence is absent. Docker build and live HTTP sockets were not exercised."
+        ],
+        "status": "dry_run",
+        "written": []
+      },
+      "updateResult": {
+        "ok": true,
+        "issues": [],
+        "patches": [
+          {
+            "path": "docs/service.md",
+            "reason": "The final working tree changes the greeting response field and default port; Docker EXPOSE remains 3000.",
+            "evidence": [
+              {
+                "path": "src/config.js",
+                "hash": "b941448313a0aef3b59cfd4243765bb27e900b6a539066ae6cca7fe87e265557"
+              },
+              {
+                "path": "src/handler.js",
+                "hash": "6fa7b32052aa445c83c6edbb8edbaef18c5cfeeedc16f513fd43bf20089a498b"
+              },
+              {
+                "path": "test/service.test.js",
+                "hash": "42ca5e6ff2ded52bd9deee87c3c2ae08292c03bb06ae1e6f2991bbcc683f4b2f"
+              },
+              {
+                "path": "Dockerfile",
+                "hash": "85ba36ce66993dc227b707515750ba165b23b679c3798399e89737980dab018b"
+              }
+            ],
+            "patch": "Index: docs/service.md\n===================================================================\n--- docs/service.md\n+++ docs/service.md\n@@ -8,18 +8,18 @@\n \n | Path | Response |\n | --- | --- |\n | `/health` | Status 200, `{ \"ok\": true }` |\n-| `/greet?name=Ada` | Status 200, `{ \"message\": \"Hello, Ada\" }` with the default prefix |\n+| `/greet?name=Ada` | Status 200, `{ \"greeting\": \"Hello, Ada\" }` with the default prefix |\n | Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n \n For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n \n ## Configuration\n \n-[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n+[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3100 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n \n ## Tests and packaging\n \n [Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n \n-The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.\n+The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`; this declared port differs from the runtime default in [Configuration](#configuration). No production host, orchestration platform or release procedure is established by these files.\n"
+          }
+        ],
+        "unchanged": [],
+        "gaps": [
+          "Production deployment and release evidence is absent. Docker build and live HTTP sockets were not exercised."
+        ],
+        "status": "success",
+        "written": [
+          "docs/service.md"
+        ],
+        "postWriteIssues": []
+      },
+      "updateRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [
+          "Production deployment and release evidence is absent. Docker build and live HTTP sockets were not exercised."
+        ],
+        "status": "no_change",
+        "written": []
+      },
+      "finalDocuments": {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "35f256dcf95930a00e5f328783beca94621132556cd2b052923c2540e82ed02d",
+            "content": "# Greeting service\n\nA Node HTTP service returns JSON for health and greeting requests. Start it with `npm start` and run its unit tests with `npm test`, as defined in [package.json](package.json).\n\nBefore changing routes, environment configuration or container startup, read [service behavior and verification](docs/service.md). That page links the owning source, tests, CI and container configuration.\n"
+          },
+          {
+            "path": "docs/service.md",
+            "hash": "4fceba8830f6daddbbce97fc03a1f7e1666ba160c32bc18b3bd3432ec5296c16",
+            "content": "# Service behavior and verification\n\nUse this page when changing request handling, startup configuration or the packaged container entrypoint.\n\n## Request flow\n\n[server.js](../src/server.js) reads configuration once at startup, creates an HTTP server, passes the parsed request URL to [handle](../src/handler.js), and writes its status and JSON body. The server sets `content-type: application/json`. Routing checks the URL pathname, not the HTTP method.\n\n| Path | Response |\n| --- | --- |\n| `/health` | Status 200, `{ \"ok\": true }` |\n| `/greet?name=Ada` | Status 200, `{ \"greeting\": \"Hello, Ada\" }` with the default prefix |\n| Any other pathname | Status 404, `{ \"error\": \"Not found\" }` |\n\nFor `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.\n\n## Configuration\n\n[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3100 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.\n\n## Tests and packaging\n\n[Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.\n\nThe [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`; this declared port differs from the runtime default in [Configuration](#configuration). No production host, orchestration platform or release procedure is established by these files.\n"
+          }
+        ]
+      }
+    },
+    {
+      "name": "partial-docs",
+      "initialEvidence": {
+        "files": [
+          {
+            "path": "AGENTS.md",
+            "hash": "a8fe8f54acb2720f1b783e052c24325ef02bcf18110a124c11935d7101b5ff41",
+            "content": "# Rules\n\nDo not replace the in-memory cache with a network service.\n"
+          },
+          {
+            "path": "README.md",
+            "hash": "6e7a92c1cc4a85bbb9a079e0c470c7c559a88ff58ca0e083bede4c0cb804e0e4",
+            "content": "# Memo cache\n\nValues are cached in memory for repeated synchronous reads.\n\n[Configuration](docs/configuration.md)\n\nMaintainer note: keep deterministic clocks in regression tests.\n"
+          },
+          {
+            "path": "docs/configuration.md",
+            "hash": "861d5680f8484d16eafe13ab8c64316f3de4a108b6c9ba63f417d3e94b45c19c",
+            "content": "# Configuration\n\nThe default cache TTL is 1000 milliseconds.\n\nPass a clock function as the second argument for deterministic tests.\n"
+          },
+          {
+            "path": "package.json",
+            "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00",
+            "content": "{\"name\":\"memo-cache\",\"type\":\"module\",\"scripts\":{\"test\":\"node --test\"}}\n"
+          },
+          {
+            "path": "src/cache.js",
+            "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5",
+            "content": "export function createCache(ttl = 5000, now = Date.now) {\n  const values = new Map();\n  return {\n    getOrSet(key, make) {\n      const entry = values.get(key);\n      if (entry && entry.until > now()) return entry.value;\n      const value = make();\n      values.set(key, {value, until:now()+ttl});\n      return value;\n    },\n    clear() { values.clear(); }\n  };\n}\n"
+          },
+          {
+            "path": "test/cache.test.js",
+            "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { createCache } from \"../src/cache.js\";\ntest(\"expires at the TTL boundary\", () => {let clock=0; const cache=createCache(5000,()=>clock); assert.equal(cache.getOrSet(\"a\",()=>1),1); clock=4999; assert.equal(cache.getOrSet(\"a\",()=>2),1); clock=5000; assert.equal(cache.getOrSet(\"a\",()=>3),3);});\n"
+          }
+        ]
+      },
+      "init": {
+        "proposal": {
+          "version": 1,
+          "workflow": "init",
+          "entrypoints": [
+            "README.md"
+          ],
+          "changes": [
+            {
+              "path": "README.md",
+              "content": "# Memo cache\n\nValues are cached in memory for repeated synchronous reads.\n\n[Configuration](docs/configuration.md)\n\nMaintainer note: keep deterministic clocks in regression tests.\n\nBefore changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n",
+              "expectedHash": "6e7a92c1cc4a85bbb9a079e0c470c7c559a88ff58ca0e083bede4c0cb804e0e4",
+              "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+              "evidence": [
+                {
+                  "path": "src/cache.js",
+                  "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                },
+                {
+                  "path": "test/cache.test.js",
+                  "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                },
+                {
+                  "path": "docs/configuration.md",
+                  "hash": "861d5680f8484d16eafe13ab8c64316f3de4a108b6c9ba63f417d3e94b45c19c"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                }
+              ]
+            },
+            {
+              "path": "docs/configuration.md",
+              "content": "# Configuration\n\nThe default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n\nPass a clock function as the second argument for deterministic tests.\n\n## Expiration and clearing\n\nEach cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n\n`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n",
+              "expectedHash": "861d5680f8484d16eafe13ab8c64316f3de4a108b6c9ba63f417d3e94b45c19c",
+              "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+              "evidence": [
+                {
+                  "path": "src/cache.js",
+                  "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                },
+                {
+                  "path": "test/cache.test.js",
+                  "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                },
+                {
+                  "path": "README.md",
+                  "hash": "6e7a92c1cc4a85bbb9a079e0c470c7c559a88ff58ca0e083bede4c0cb804e0e4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                }
+              ]
+            }
+          ],
+          "gaps": []
+        },
+        "checks": [
+          {
+            "action": "check",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+                  "evidence": [
+                    {
+                      "path": "src/cache.js",
+                      "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                    },
+                    {
+                      "path": "test/cache.test.js",
+                      "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                    },
+                    {
+                      "path": "docs/configuration.md",
+                      "hash": "861d5680f8484d16eafe13ab8c64316f3de4a108b6c9ba63f417d3e94b45c19c"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                    }
+                  ],
+                  "patch": "Index: README.md\n===================================================================\n--- README.md\n+++ README.md\n@@ -4,4 +4,6 @@\n \n [Configuration](docs/configuration.md)\n \n Maintainer note: keep deterministic clocks in regression tests.\n+\n+Before changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+                },
+                {
+                  "path": "docs/configuration.md",
+                  "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+                  "evidence": [
+                    {
+                      "path": "src/cache.js",
+                      "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                    },
+                    {
+                      "path": "test/cache.test.js",
+                      "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                    },
+                    {
+                      "path": "README.md",
+                      "hash": "6e7a92c1cc4a85bbb9a079e0c470c7c559a88ff58ca0e083bede4c0cb804e0e4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                    }
+                  ],
+                  "patch": "Index: docs/configuration.md\n===================================================================\n--- docs/configuration.md\n+++ docs/configuration.md\n@@ -1,5 +1,11 @@\n # Configuration\n \n-The default cache TTL is 1000 milliseconds.\n+The default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n \n Pass a clock function as the second argument for deterministic tests.\n+\n+## Expiration and clearing\n+\n+Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n+\n+`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": []
+            }
+          },
+          {
+            "action": "apply --dry-run",
+            "result": {
+              "ok": true,
+              "issues": [],
+              "patches": [
+                {
+                  "path": "README.md",
+                  "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+                  "evidence": [
+                    {
+                      "path": "src/cache.js",
+                      "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                    },
+                    {
+                      "path": "test/cache.test.js",
+                      "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                    },
+                    {
+                      "path": "docs/configuration.md",
+                      "hash": "861d5680f8484d16eafe13ab8c64316f3de4a108b6c9ba63f417d3e94b45c19c"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                    }
+                  ],
+                  "patch": "Index: README.md\n===================================================================\n--- README.md\n+++ README.md\n@@ -4,4 +4,6 @@\n \n [Configuration](docs/configuration.md)\n \n Maintainer note: keep deterministic clocks in regression tests.\n+\n+Before changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+                },
+                {
+                  "path": "docs/configuration.md",
+                  "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+                  "evidence": [
+                    {
+                      "path": "src/cache.js",
+                      "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                    },
+                    {
+                      "path": "test/cache.test.js",
+                      "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                    },
+                    {
+                      "path": "README.md",
+                      "hash": "6e7a92c1cc4a85bbb9a079e0c470c7c559a88ff58ca0e083bede4c0cb804e0e4"
+                    },
+                    {
+                      "path": "package.json",
+                      "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                    }
+                  ],
+                  "patch": "Index: docs/configuration.md\n===================================================================\n--- docs/configuration.md\n+++ docs/configuration.md\n@@ -1,5 +1,11 @@\n # Configuration\n \n-The default cache TTL is 1000 milliseconds.\n+The default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n \n Pass a clock function as the second argument for deterministic tests.\n+\n+## Expiration and clearing\n+\n+Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n+\n+`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n"
+                }
+              ],
+              "unchanged": [],
+              "gaps": [],
+              "status": "dry_run",
+              "written": []
+            }
+          }
+        ],
+        "dryRunUnchanged": true,
+        "applied": {
+          "ok": true,
+          "issues": [],
+          "patches": [
+            {
+              "path": "README.md",
+              "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+              "evidence": [
+                {
+                  "path": "src/cache.js",
+                  "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                },
+                {
+                  "path": "test/cache.test.js",
+                  "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                },
+                {
+                  "path": "docs/configuration.md",
+                  "hash": "861d5680f8484d16eafe13ab8c64316f3de4a108b6c9ba63f417d3e94b45c19c"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                }
+              ],
+              "patch": "Index: README.md\n===================================================================\n--- README.md\n+++ README.md\n@@ -4,4 +4,6 @@\n \n [Configuration](docs/configuration.md)\n \n Maintainer note: keep deterministic clocks in regression tests.\n+\n+Before changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+            },
+            {
+              "path": "docs/configuration.md",
+              "reason": "Correct the stale TTL and add source-linked expiration details while preserving maintainer content.",
+              "evidence": [
+                {
+                  "path": "src/cache.js",
+                  "hash": "97eda8ae1159686f53435cbdbcbae6ccd00bc9af92f33b4ae337585fb43390a5"
+                },
+                {
+                  "path": "test/cache.test.js",
+                  "hash": "e42754a609284a2424f4b73c2cfc460d07d1707b50f1bddec90107c512195914"
+                },
+                {
+                  "path": "README.md",
+                  "hash": "6e7a92c1cc4a85bbb9a079e0c470c7c559a88ff58ca0e083bede4c0cb804e0e4"
+                },
+                {
+                  "path": "package.json",
+                  "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00"
+                }
+              ],
+              "patch": "Index: docs/configuration.md\n===================================================================\n--- docs/configuration.md\n+++ docs/configuration.md\n@@ -1,5 +1,11 @@\n # Configuration\n \n-The default cache TTL is 1000 milliseconds.\n+The default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n \n Pass a clock function as the second argument for deterministic tests.\n+\n+## Expiration and clearing\n+\n+Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n+\n+`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n"
+            }
+          ],
+          "unchanged": [],
+          "gaps": [],
+          "status": "success",
+          "written": [
+            "README.md",
+            "docs/configuration.md"
+          ],
+          "postWriteIssues": []
+        }
+      },
+      "initialTests": {
+        "chunk_id": "16ac30",
+        "wall_time_seconds": 0.229574791,
+        "exit_code": 0,
+        "original_token_count": 40,
+        "output": "✔ expires at the TTL boundary (0.938958ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 144.467417\n"
+      },
+      "initRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "selectedDiff": {
+        "mode": "worktree",
+        "from": "1aec820c95093b63c1c6fb59d34a8ce3a71fc163",
+        "to": "WORKTREE",
+        "head": "1aec820c95093b63c1c6fb59d34a8ce3a71fc163",
+        "committed": [],
+        "staged": [],
+        "unstaged": [
+          {
+            "status": "M",
+            "path": "README.md",
+            "patch": "diff --git a/README.md b/README.md\nindex a411e86..d06e191 100644\n--- a/README.md\n+++ b/README.md\n@@ -5,3 +5,5 @@ Values are cached in memory for repeated synchronous reads.\n [Configuration](docs/configuration.md)\n \n Maintainer note: keep deterministic clocks in regression tests.\n+\n+Before changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+          },
+          {
+            "status": "M",
+            "path": "docs/configuration.md",
+            "patch": "diff --git a/docs/configuration.md b/docs/configuration.md\nindex 67776b6..5a9cf97 100644\n--- a/docs/configuration.md\n+++ b/docs/configuration.md\n@@ -1,5 +1,11 @@\n # Configuration\n \n-The default cache TTL is 1000 milliseconds.\n+The default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n \n Pass a clock function as the second argument for deterministic tests.\n+\n+## Expiration and clearing\n+\n+Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n+\n+`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n"
+          },
+          {
+            "status": "M",
+            "path": "src/cache.js",
+            "patch": "diff --git a/src/cache.js b/src/cache.js\nindex 4a3a4db..cc7a5d3 100644\n--- a/src/cache.js\n+++ b/src/cache.js\n@@ -8,6 +8,7 @@ export function createCache(ttl = 5000, now = Date.now) {\n       values.set(key, {value, until:now()+ttl});\n       return value;\n     },\n+    size() { return values.size; },\n     clear() { values.clear(); }\n   };\n }\n"
+          },
+          {
+            "status": "M",
+            "path": "test/cache.test.js",
+            "patch": "diff --git a/test/cache.test.js b/test/cache.test.js\nindex 0439fa2..a9d1144 100644\n--- a/test/cache.test.js\n+++ b/test/cache.test.js\n@@ -2,3 +2,4 @@ import assert from \"node:assert/strict\";\n import { test } from \"node:test\";\n import { createCache } from \"../src/cache.js\";\n test(\"expires at the TTL boundary\", () => {let clock=0; const cache=createCache(5000,()=>clock); assert.equal(cache.getOrSet(\"a\",()=>1),1); clock=4999; assert.equal(cache.getOrSet(\"a\",()=>2),1); clock=5000; assert.equal(cache.getOrSet(\"a\",()=>3),3);});\n+test(\"size includes expired entries until clear\", () => {let clock=0; const cache=createCache(5000,()=>clock); cache.getOrSet(\"a\",()=>1); clock=5000; assert.equal(cache.size(),1); cache.clear(); assert.equal(cache.size(),0);});\n"
+          }
+        ],
+        "untracked": [
+          {
+            "status": "?",
+            "path": "user-edits.txt",
+            "patch": "Unrelated human scratch work must survive documentation maintenance.\n"
+          }
+        ],
+        "writeAllowed": true,
+        "fingerprint": "0fe3bf06a94b8532d9b126f369e15e3508aca9500d0ce63a336df73755a1a3c2",
+        "pagination": {
+          "total": 5,
+          "offset": 0,
+          "limit": 200,
+          "nextOffset": null
+        }
+      },
+      "updatedEvidence": {
+        "files": [
+          {
+            "path": "AGENTS.md",
+            "hash": "a8fe8f54acb2720f1b783e052c24325ef02bcf18110a124c11935d7101b5ff41",
+            "content": "# Rules\n\nDo not replace the in-memory cache with a network service.\n"
+          },
+          {
+            "path": "README.md",
+            "hash": "6c74a08d9424e0c801419a001d06c8581ec99b586b49056af2571f840b2ee7d1",
+            "content": "# Memo cache\n\nValues are cached in memory for repeated synchronous reads.\n\n[Configuration](docs/configuration.md)\n\nMaintainer note: keep deterministic clocks in regression tests.\n\nBefore changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+          },
+          {
+            "path": "docs/configuration.md",
+            "hash": "c59bd8af605206a2ec35d5c0d6417ddbe9e7dbbb125c58b6040c213b4f8759bf",
+            "content": "# Configuration\n\nThe default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n\nPass a clock function as the second argument for deterministic tests.\n\n## Expiration and clearing\n\nEach cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n\n`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n"
+          },
+          {
+            "path": "package.json",
+            "hash": "f08c07263c81480c241c66ba5a61bfa456a70405241760446bf43591362dfc00",
+            "content": "{\"name\":\"memo-cache\",\"type\":\"module\",\"scripts\":{\"test\":\"node --test\"}}\n"
+          },
+          {
+            "path": "src/cache.js",
+            "hash": "abeaec68240f4663e016e4471ccd7744b49f6ccfffc3e81735b327b22eae6d86",
+            "content": "export function createCache(ttl = 5000, now = Date.now) {\n  const values = new Map();\n  return {\n    getOrSet(key, make) {\n      const entry = values.get(key);\n      if (entry && entry.until > now()) return entry.value;\n      const value = make();\n      values.set(key, {value, until:now()+ttl});\n      return value;\n    },\n    size() { return values.size; },\n    clear() { values.clear(); }\n  };\n}\n"
+          },
+          {
+            "path": "test/cache.test.js",
+            "hash": "6a0e8a62fd6dc3a42cb7c983b78123b93fcb4cb245f3b1884018a5295b5803b3",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { createCache } from \"../src/cache.js\";\ntest(\"expires at the TTL boundary\", () => {let clock=0; const cache=createCache(5000,()=>clock); assert.equal(cache.getOrSet(\"a\",()=>1),1); clock=4999; assert.equal(cache.getOrSet(\"a\",()=>2),1); clock=5000; assert.equal(cache.getOrSet(\"a\",()=>3),3);});\ntest(\"size includes expired entries until clear\", () => {let clock=0; const cache=createCache(5000,()=>clock); cache.getOrSet(\"a\",()=>1); clock=5000; assert.equal(cache.size(),1); cache.clear(); assert.equal(cache.size(),0);});\n"
+          }
+        ]
+      },
+      "updatedTests": {
+        "chunk_id": "abf56d",
+        "wall_time_seconds": 0.279622375,
+        "exit_code": 0,
+        "original_token_count": 55,
+        "output": "✔ expires at the TTL boundary (1.88825ms)\n✔ size includes expired entries until clear (2.248333ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 281.199416\n"
+      },
+      "updateProposal": {
+        "version": 1,
+        "workflow": "update",
+        "scope": {},
+        "scopeFingerprint": "50d583ed79b6c1f736cd56f91bb59e79df48d3505a15a59cdcfd019f64c474a0",
+        "entrypoints": [
+          "README.md"
+        ],
+        "changes": [
+          {
+            "path": "docs/configuration.md",
+            "expectedHash": "ca889ef94096a94c7ddd934ac1ab0fac0afc97a7e6bbbde269358481470d65db",
+            "content": "# Configuration\n\nThe default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n\nPass a clock function as the second argument for deterministic tests.\n\n## Expiration and clearing\n\nEach cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n\n`size()` reports the number of stored keys, including expired entries that have not been cleared. It does not count only currently reusable values. The size regression test checks an expired key remains counted until `clear()`.\n\n`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n\nMaintainer note: retain deterministic coverage when changing the size method.\n",
+            "reason": "Document the new size method in the existing expiration page, including expired-entry semantics established by source and test. Preserve the concurrently added maintainer note after rereading the document and implementation.",
+            "evidence": [
+              {
+                "path": "src/cache.js",
+                "hash": "abeaec68240f4663e016e4471ccd7744b49f6ccfffc3e81735b327b22eae6d86"
+              },
+              {
+                "path": "test/cache.test.js",
+                "hash": "6a0e8a62fd6dc3a42cb7c983b78123b93fcb4cb245f3b1884018a5295b5803b3"
+              }
+            ]
+          }
+        ],
+        "gaps": []
+      },
+      "updateDryRun": {
+        "ok": true,
+        "issues": [],
+        "patches": [
+          {
+            "path": "docs/configuration.md",
+            "reason": "Document the new size method in the existing expiration page, including expired-entry semantics established by source and test. Preserve the concurrently added maintainer note after rereading the document and implementation.",
+            "evidence": [
+              {
+                "path": "src/cache.js",
+                "hash": "abeaec68240f4663e016e4471ccd7744b49f6ccfffc3e81735b327b22eae6d86"
+              },
+              {
+                "path": "test/cache.test.js",
+                "hash": "6a0e8a62fd6dc3a42cb7c983b78123b93fcb4cb245f3b1884018a5295b5803b3"
+              }
+            ],
+            "patch": "Index: docs/configuration.md\n===================================================================\n--- docs/configuration.md\n+++ docs/configuration.md\n@@ -7,7 +7,9 @@\n ## Expiration and clearing\n \n Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n \n+`size()` reports the number of stored keys, including expired entries that have not been cleared. It does not count only currently reusable values. The size regression test checks an expired key remains counted until `clear()`.\n+\n `clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n \n Maintainer note: retain deterministic coverage when changing the size method.\n"
+          }
+        ],
+        "unchanged": [],
+        "gaps": [],
+        "status": "dry_run",
+        "written": []
+      },
+      "updateResult": {
+        "ok": true,
+        "issues": [],
+        "patches": [
+          {
+            "path": "docs/configuration.md",
+            "reason": "Document the new size method in the existing expiration page, including expired-entry semantics established by source and test. Preserve the concurrently added maintainer note after rereading the document and implementation.",
+            "evidence": [
+              {
+                "path": "src/cache.js",
+                "hash": "abeaec68240f4663e016e4471ccd7744b49f6ccfffc3e81735b327b22eae6d86"
+              },
+              {
+                "path": "test/cache.test.js",
+                "hash": "6a0e8a62fd6dc3a42cb7c983b78123b93fcb4cb245f3b1884018a5295b5803b3"
+              }
+            ],
+            "patch": "Index: docs/configuration.md\n===================================================================\n--- docs/configuration.md\n+++ docs/configuration.md\n@@ -7,7 +7,9 @@\n ## Expiration and clearing\n \n Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n \n+`size()` reports the number of stored keys, including expired entries that have not been cleared. It does not count only currently reusable values. The size regression test checks an expired key remains counted until `clear()`.\n+\n `clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n \n Maintainer note: retain deterministic coverage when changing the size method.\n"
+          }
+        ],
+        "unchanged": [],
+        "gaps": [],
+        "status": "success",
+        "written": [
+          "docs/configuration.md"
+        ],
+        "postWriteIssues": []
+      },
+      "updateRepeat": {
+        "ok": true,
+        "issues": [],
+        "patches": [],
+        "unchanged": [],
+        "gaps": [],
+        "status": "no_change",
+        "written": []
+      },
+      "finalDocuments": {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "6c74a08d9424e0c801419a001d06c8581ec99b586b49056af2571f840b2ee7d1",
+            "content": "# Memo cache\n\nValues are cached in memory for repeated synchronous reads.\n\n[Configuration](docs/configuration.md)\n\nMaintainer note: keep deterministic clocks in regression tests.\n\nBefore changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+          },
+          {
+            "path": "docs/configuration.md",
+            "hash": "78bd4e1bd11c3ae503a90e8714c5ca781ff5c6589e6205ad1bc8656613aa75ee",
+            "content": "# Configuration\n\nThe default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n\nPass a clock function as the second argument for deterministic tests.\n\n## Expiration and clearing\n\nEach cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n\n`size()` reports the number of stored keys, including expired entries that have not been cleared. It does not count only currently reusable values. The size regression test checks an expired key remains counted until `clear()`.\n\n`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n\nMaintainer note: retain deterministic coverage when changing the size method.\n"
+          },
+          {
+            "path": "AGENTS.md",
+            "hash": "a8fe8f54acb2720f1b783e052c24325ef02bcf18110a124c11935d7101b5ff41",
+            "content": "# Rules\n\nDo not replace the in-memory cache with a network service.\n"
+          }
+        ]
+      }
+    }
+  ],
+  "concurrency": {
+    "rejection": {
+      "ok": false,
+      "error": {
+        "code": "scope_conflict",
+        "message": "Git scope changed since diff was read. Inspect it again before writing."
+      }
+    },
+    "reread": {
+      "files": [
+        {
+          "path": "docs/configuration.md",
+          "hash": "ca889ef94096a94c7ddd934ac1ab0fac0afc97a7e6bbbde269358481470d65db",
+          "content": "# Configuration\n\nThe default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n\nPass a clock function as the second argument for deterministic tests.\n\n## Expiration and clearing\n\nEach cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n\n`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n\nMaintainer note: retain deterministic coverage when changing the size method.\n"
+        },
+        {
+          "path": "src/cache.js",
+          "hash": "abeaec68240f4663e016e4471ccd7744b49f6ccfffc3e81735b327b22eae6d86",
+          "content": "export function createCache(ttl = 5000, now = Date.now) {\n  const values = new Map();\n  return {\n    getOrSet(key, make) {\n      const entry = values.get(key);\n      if (entry && entry.until > now()) return entry.value;\n      const value = make();\n      values.set(key, {value, until:now()+ttl});\n      return value;\n    },\n    size() { return values.size; },\n    clear() { values.clear(); }\n  };\n}\n"
+        },
+        {
+          "path": "test/cache.test.js",
+          "hash": "6a0e8a62fd6dc3a42cb7c983b78123b93fcb4cb245f3b1884018a5295b5803b3",
+          "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { createCache } from \"../src/cache.js\";\ntest(\"expires at the TTL boundary\", () => {let clock=0; const cache=createCache(5000,()=>clock); assert.equal(cache.getOrSet(\"a\",()=>1),1); clock=4999; assert.equal(cache.getOrSet(\"a\",()=>2),1); clock=5000; assert.equal(cache.getOrSet(\"a\",()=>3),3);});\ntest(\"size includes expired entries until clear\", () => {let clock=0; const cache=createCache(5000,()=>clock); cache.getOrSet(\"a\",()=>1); clock=5000; assert.equal(cache.size(),1); cache.clear(); assert.equal(cache.size(),0);});\n"
+        },
+        {
+          "path": "user-edits.txt",
+          "hash": "31c38478fd012e6ab6b9f5721f423b4bfbbcb1cf43b18f6222e62c3256ed0553",
+          "content": "Unrelated human scratch work must survive documentation maintenance.\n"
+        }
+      ]
+    },
+    "retryCount": 1
+  },
+  "verification": {
+    "initIdempotence": {
+      "chunk_id": "dcaabd",
+      "wall_time_seconds": 1.555714,
+      "exit_code": 0,
+      "original_token_count": 358,
+      "output": "\n> doc-factory@0.1.0 eval:verify\n> node --import tsx evals/verify.ts /Users/moonmoonzi/Workspace/doc-factory/.eval-work/run-Yx94CN --compare after-init\n\n{\n  \"results\": [\n    {\n      \"name\": \"small-library\",\n      \"docs\": [\n        \"README.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true\n      },\n      \"sourceChanges\": [],\n      \"issues\": []\n    },\n    {\n      \"name\": \"monorepo\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/job-flow.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"preservedOperatorNote\": true\n      },\n      \"sourceChanges\": [],\n      \"issues\": []\n    },\n    {\n      \"name\": \"application\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/service.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true\n      },\n      \"sourceChanges\": [],\n      \"issues\": []\n    },\n    {\n      \"name\": \"partial-docs\",\n      \"docs\": [\n        \"AGENTS.md\",\n        \"README.md\",\n        \"docs/configuration.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"preservedMaintainerNote\": true,\n        \"preservedAgentRule\": true,\n        \"fixedTtl\": true\n      },\n      \"sourceChanges\": [],\n      \"issues\": []\n    }\n  ],\n  \"idempotent\": true,\n  \"semanticCorrectness\": \"requires host review; structural checks are not a substitute\"\n}\n"
+    },
+    "updateDryRun": {
+      "chunk_id": "7bacf4",
+      "wall_time_seconds": 2.398623041,
+      "exit_code": 0,
+      "original_token_count": 554,
+      "output": "\n> doc-factory@0.1.0 eval:verify\n> node --import tsx evals/verify.ts /Users/moonmoonzi/Workspace/doc-factory/.eval-work/run-Yx94CN --compare before-update\n\n{\n  \"results\": [\n    {\n      \"name\": \"small-library\",\n      \"docs\": [\n        \"README.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true\n      },\n      \"sourceChanges\": [\n        \"src/index.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"monorepo\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/job-flow.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true,\n        \"preservedOperatorNote\": true\n      },\n      \"sourceChanges\": [\n        \"packages/core/src/index.js\",\n        \"test/worker.test.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"application\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/service.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true\n      },\n      \"sourceChanges\": [\n        \"src/config.js\",\n        \"src/handler.js\",\n        \"test/service.test.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"partial-docs\",\n      \"docs\": [\n        \"AGENTS.md\",\n        \"README.md\",\n        \"docs/configuration.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true,\n        \"preservedMaintainerNote\": true,\n        \"preservedAgentRule\": true,\n        \"fixedTtl\": true\n      },\n      \"sourceChanges\": [\n        \"src/cache.js\",\n        \"test/cache.test.js\"\n      ],\n      \"issues\": []\n    }\n  ],\n  \"idempotent\": true,\n  \"semanticCorrectness\": \"requires host review; structural checks are not a substitute\"\n}\n"
+    },
+    "afterUpdate": {
+      "chunk_id": "6b3e7e",
+      "wall_time_seconds": 2.98443875,
+      "exit_code": 0,
+      "original_token_count": 554,
+      "output": "\n> doc-factory@0.1.0 eval:verify\n> node --import tsx evals/verify.ts /Users/moonmoonzi/Workspace/doc-factory/.eval-work/run-Yx94CN --capture after-update\n\n{\n  \"results\": [\n    {\n      \"name\": \"small-library\",\n      \"docs\": [\n        \"README.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true\n      },\n      \"sourceChanges\": [\n        \"src/index.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"monorepo\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/job-flow.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true,\n        \"preservedOperatorNote\": true\n      },\n      \"sourceChanges\": [\n        \"packages/core/src/index.js\",\n        \"test/worker.test.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"application\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/service.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true\n      },\n      \"sourceChanges\": [\n        \"src/config.js\",\n        \"src/handler.js\",\n        \"test/service.test.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"partial-docs\",\n      \"docs\": [\n        \"AGENTS.md\",\n        \"README.md\",\n        \"docs/configuration.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true,\n        \"preservedMaintainerNote\": true,\n        \"preservedAgentRule\": true,\n        \"fixedTtl\": true\n      },\n      \"sourceChanges\": [\n        \"src/cache.js\",\n        \"test/cache.test.js\"\n      ],\n      \"issues\": []\n    }\n  ],\n  \"idempotent\": null,\n  \"semanticCorrectness\": \"requires host review; structural checks are not a substitute\"\n}\n"
+    },
+    "updateIdempotence": {
+      "chunk_id": "3b95a2",
+      "wall_time_seconds": 2.033144083,
+      "exit_code": 0,
+      "original_token_count": 554,
+      "output": "\n> doc-factory@0.1.0 eval:verify\n> node --import tsx evals/verify.ts /Users/moonmoonzi/Workspace/doc-factory/.eval-work/run-Yx94CN --compare after-update\n\n{\n  \"results\": [\n    {\n      \"name\": \"small-library\",\n      \"docs\": [\n        \"README.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true\n      },\n      \"sourceChanges\": [\n        \"src/index.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"monorepo\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/job-flow.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true,\n        \"preservedOperatorNote\": true\n      },\n      \"sourceChanges\": [\n        \"packages/core/src/index.js\",\n        \"test/worker.test.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"application\",\n      \"docs\": [\n        \"README.md\",\n        \"docs/service.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true\n      },\n      \"sourceChanges\": [\n        \"src/config.js\",\n        \"src/handler.js\",\n        \"test/service.test.js\"\n      ],\n      \"issues\": []\n    },\n    {\n      \"name\": \"partial-docs\",\n      \"docs\": [\n        \"AGENTS.md\",\n        \"README.md\",\n        \"docs/configuration.md\"\n      ],\n      \"checks\": {\n        \"substantiveDocs\": true,\n        \"noBrokenLinks\": true,\n        \"sourcePreservedSinceHarness\": true,\n        \"headPreservedSinceHarness\": true,\n        \"indexPreservedSinceHarness\": true,\n        \"preservedMaintainerNote\": true,\n        \"preservedAgentRule\": true,\n        \"fixedTtl\": true\n      },\n      \"sourceChanges\": [\n        \"src/cache.js\",\n        \"test/cache.test.js\"\n      ],\n      \"issues\": []\n    }\n  ],\n  \"idempotent\": true,\n  \"semanticCorrectness\": \"requires host review; structural checks are not a substitute\"\n}\n"
+    }
+  },
+  "notVerified": [
+    "Independent fresh host sessions and cross-provider Skill discovery",
+    "Full MDX/reST/site rendering",
+    "Linux/Windows/Node 22 runtime",
+    "Large-repository performance",
+    "Adversarial final-interval concurrent filesystem mutation",
+    "Docker build/live sockets/production deployment"
+  ]
+}

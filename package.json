@@ -1,0 +1,47 @@
+{
+  "name": "doc-factory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable Agent Skill for evidence-based project documentation initialization and maintenance",
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "skills/",
+    "src/",
+    "scripts/",
+    "tests/",
+    "evals/",
+    "tsconfig.json",
+    "README.md",
+    "REPORT.md"
+  ],
+  "scripts": {
+    "build": "node --import tsx scripts/build.ts",
+    "typecheck": "tsc --noEmit",
+    "pretest": "npm run build",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "eval:prepare": "node --import tsx evals/prepare.ts",
+    "eval:mutate": "node --import tsx evals/mutate.ts",
+    "eval:verify": "node --import tsx evals/verify.ts",
+    "prepack": "npm run typecheck && npm run build"
+  },
+  "dependencies": {
+    "diff": "9.0.0",
+    "github-slugger": "2.0.0",
+    "ignore": "7.0.8",
+    "remark-gfm": "4.0.1",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "yaml": "2.9.0"
+  },
+  "devDependencies": {
+    "@types/diff": "7.0.2",
+    "@types/mdast": "4.0.4",
+    "@types/node": "26.4.1",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,60 @@
+Index: monorepo/docs/job-flow.md
+===================================================================
+--- monorepo/docs/job-flow.md
++++ monorepo/docs/job-flow.md
+@@ -3,11 +3,11 @@
+ Read this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).
+ 
+ ## Ownership and flow
+ 
+-[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the original id with `payload`. It validates the trimmed id but does not trim the returned value. JSON parse errors propagate; the implementation does not provide a general object-schema validator.
++[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the trimmed id with `payload`. Surrounding id whitespace is removed before the worker propagates the id. JSON parse errors propagate; the implementation does not provide a general object-schema validator.
+ 
+ [Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.
+ 
+ ## Verification
+ 
+-[Worker tests](../test/worker.test.js) exercise payload delivery, preserved identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.
++[Worker tests](../test/worker.test.js) exercise payload delivery, normalized identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.
+
+Index: application/docs/service.md
+===================================================================
+--- application/docs/service.md
++++ application/docs/service.md
+@@ -8,18 +8,18 @@
+ 
+ | Path | Response |
+ | --- | --- |
+ | `/health` | Status 200, `{ "ok": true }` |
+-| `/greet?name=Ada` | Status 200, `{ "message": "Hello, Ada" }` with the default prefix |
++| `/greet?name=Ada` | Status 200, `{ "greeting": "Hello, Ada" }` with the default prefix |
+ | Any other pathname | Status 404, `{ "error": "Not found" }` |
+ 
+ For `/greet`, an absent `name` parameter becomes `world`; an explicitly empty parameter stays empty. The configured prefix is followed by a comma and a space before the name.
+ 
+ ## Configuration
+ 
+-[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3000 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.
++[loadConfig](../src/config.js) converts `PORT` to a number and requires an integer between 1 and 65535. It defaults to 3100 when unset and throws `Invalid PORT` for invalid input. `GREETING_PREFIX` defaults to `Hello` when unset; an empty string is retained. Configuration errors occur before the server starts listening.
+ 
+ ## Tests and packaging
+ 
+ [Service tests](../test/service.test.js) cover default configuration, an invalid port and a named greeting. [CI](../.github/workflows/test.yml) runs `npm test` with Node 22 on pushes and pull requests. The tests call configuration and handler functions directly; they do not prove live socket behavior.
+ 
+-The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`. No production host, orchestration platform or release procedure is established by these files.
++The [Dockerfile](../Dockerfile) uses `node:22-alpine`, copies the manifest and source into `/app`, declares port 3000, and starts `node src/server.js`. A container port declaration does not override `PORT`; this declared port differs from the runtime default in [Configuration](#configuration). No production host, orchestration platform or release procedure is established by these files.
+
+Index: partial-docs/docs/configuration.md
+===================================================================
+--- partial-docs/docs/configuration.md
++++ partial-docs/docs/configuration.md
+@@ -7,7 +7,9 @@
+ ## Expiration and clearing
+ 
+ Each cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.
+ 
++`size()` reports the number of stored keys, including expired entries that have not been cleared. It does not count only currently reusable values. The size regression test checks an expired key remains counted until `clear()`.
++
+ `clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.
+ 
+ Maintainer note: retain deterministic coverage when changing the size method.

@@ -1,0 +1,89 @@
+[
+  {
+    "name": "monorepo",
+    "task": "Locate ownership and regression coverage for changing returned job identity.",
+    "steps": [
+      {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "8e77823f35150f554e927c96ceba4de0793cab79e45d92501037f9455e2badbc",
+            "content": "# Job workspace\n\nOperator note: preserve batch identifiers when investigating failures.\n\nThe workspace contains job parsing in `@jobs/core` and handler execution in `@jobs/worker`. Before changing accepted job input, identity propagation or failure behavior, read [the job flow](docs/job-flow.md).\n"
+          }
+        ]
+      },
+      {
+        "files": [
+          {
+            "path": "docs/job-flow.md",
+            "hash": "5cf6aec042d2e4c6bbbad003565d918b3e68bc139abb6565d8b75b6284214bd7",
+            "content": "# Job parsing and execution\n\nRead this page before changing job input validation or the worker's handler interface. The workspace declaration is in [package.json](../package.json) and [pnpm-workspace.yaml](../pnpm-workspace.yaml).\n\n## Ownership and flow\n\n[Core's `parseJob`](../packages/core/src/index.js) parses JSON, requires a nonblank string `id`, and returns the trimmed id with `payload`. Surrounding id whitespace is removed before the worker propagates the id. JSON parse errors propagate; the implementation does not provide a general object-schema validator.\n\n[Worker's `runJob`](../packages/worker/src/index.js) calls the parser, passes only `payload` to the supplied handler, awaits its result, and returns `{ id, result }`. Parser exceptions and handler rejection propagate to the caller. There is no retry loop in this implementation. Core does not depend on the worker.\n\n## Verification\n\n[Worker tests](../test/worker.test.js) exercise payload delivery, normalized identity and handler failure. Run `node --test` at the workspace root. Changes to validation belong in core; changes to handler invocation and result wrapping belong in worker, with regression cases in the linked tests.\n"
+          }
+        ]
+      },
+      {
+        "files": [
+          {
+            "path": "packages/core/src/index.js",
+            "hash": "22891e0888e51645c0621464ca80e3524a8919664e3725468dd56158abdf02c2",
+            "content": "export function parseJob(input) {\n  const job = JSON.parse(input);\n  if (typeof job.id !== \"string\" || !job.id.trim()) throw new Error(\"Job id required\");\n  return { id: job.id.trim(), payload: job.payload };\n}\n"
+          },
+          {
+            "path": "packages/worker/src/index.js",
+            "hash": "b6f958d59e204a9a047713bdd744e7ac1f286f84f1d49c8536b2e06a20b8b67b",
+            "content": "import { parseJob } from \"../../core/src/index.js\";\nexport async function runJob(input, handler) {\n  const job = parseJob(input);\n  const result = await handler(job.payload);\n  return { id: job.id, result };\n}\n"
+          },
+          {
+            "path": "test/worker.test.js",
+            "hash": "cd10e7b30db294013462dc6f5911b263fba9f78d2391a6aa5ef384a5cd9a7cad",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { runJob } from \"../packages/worker/src/index.js\";\ntest(\"passes payload and retains identity\", async () => assert.deepEqual(await runJob(JSON.stringify({id:\"  j1  \",payload:2}), async x => x*2), {id:\"j1\",result:4}));\ntest(\"propagates handler failure\", async () => assert.rejects(runJob(JSON.stringify({id:\"j1\"}), async () => {throw new Error(\"failed\");}), /failed/));\n"
+          }
+        ]
+      }
+    ],
+    "finding": "Core parseJob trims identity, worker propagates it, and test/worker.test.js exercises whitespace normalization and handler failures.",
+    "independent": false,
+    "blind": false
+  },
+  {
+    "name": "partial-docs",
+    "task": "Determine whether cache size counts only unexpired values.",
+    "steps": [
+      {
+        "files": [
+          {
+            "path": "README.md",
+            "hash": "6c74a08d9424e0c801419a001d06c8581ec99b586b49056af2571f840b2ee7d1",
+            "content": "# Memo cache\n\nValues are cached in memory for repeated synchronous reads.\n\n[Configuration](docs/configuration.md)\n\nMaintainer note: keep deterministic clocks in regression tests.\n\nBefore changing expiration, read [configuration and expiration](docs/configuration.md), then [the implementation](src/cache.js) and [boundary test](test/cache.test.js). Run `npm test` from this directory, as defined in [package.json](package.json).\n"
+          }
+        ]
+      },
+      {
+        "files": [
+          {
+            "path": "docs/configuration.md",
+            "hash": "78bd4e1bd11c3ae503a90e8714c5ca781ff5c6589e6205ad1bc8656613aa75ee",
+            "content": "# Configuration\n\nThe default cache TTL is 5000 milliseconds, as defined by [createCache](../src/cache.js).\n\nPass a clock function as the second argument for deterministic tests.\n\n## Expiration and clearing\n\nEach cache instance owns an in-memory map. `getOrSet(key, make)` returns a stored value only while its deadline is strictly greater than the current clock. At the exact deadline it calls `make` again and stores a new deadline. [The boundary test](../test/cache.test.js) checks reuse at 4999 milliseconds and recomputation at 5000 milliseconds.\n\n`size()` reports the number of stored keys, including expired entries that have not been cleared. It does not count only currently reusable values. The size regression test checks an expired key remains counted until `clear()`.\n\n`clear()` removes all entries in that instance. If `make` throws, the call does not store a new entry. No background expiry timer or network persistence is implemented.\n\nMaintainer note: retain deterministic coverage when changing the size method.\n"
+          }
+        ]
+      },
+      {
+        "files": [
+          {
+            "path": "src/cache.js",
+            "hash": "abeaec68240f4663e016e4471ccd7744b49f6ccfffc3e81735b327b22eae6d86",
+            "content": "export function createCache(ttl = 5000, now = Date.now) {\n  const values = new Map();\n  return {\n    getOrSet(key, make) {\n      const entry = values.get(key);\n      if (entry && entry.until > now()) return entry.value;\n      const value = make();\n      values.set(key, {value, until:now()+ttl});\n      return value;\n    },\n    size() { return values.size; },\n    clear() { values.clear(); }\n  };\n}\n"
+          },
+          {
+            "path": "test/cache.test.js",
+            "hash": "6a0e8a62fd6dc3a42cb7c983b78123b93fcb4cb245f3b1884018a5295b5803b3",
+            "content": "import assert from \"node:assert/strict\";\nimport { test } from \"node:test\";\nimport { createCache } from \"../src/cache.js\";\ntest(\"expires at the TTL boundary\", () => {let clock=0; const cache=createCache(5000,()=>clock); assert.equal(cache.getOrSet(\"a\",()=>1),1); clock=4999; assert.equal(cache.getOrSet(\"a\",()=>2),1); clock=5000; assert.equal(cache.getOrSet(\"a\",()=>3),3);});\ntest(\"size includes expired entries until clear\", () => {let clock=0; const cache=createCache(5000,()=>clock); cache.getOrSet(\"a\",()=>1); clock=5000; assert.equal(cache.size(),1); cache.clear(); assert.equal(cache.size(),0);});\n"
+          }
+        ]
+      }
+    ],
+    "finding": "size() returns the stored Map size, so expired keys remain counted until clear; the dedicated boundary test demonstrates this.",
+    "independent": false,
+    "blind": false
+  }
+]
